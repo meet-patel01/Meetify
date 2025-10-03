@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: meetify
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: meetify-db
+          property: connectionString
+      - key: SESSION_SECRET
+        generateValue: true
+    autoDeploy: false
+
+databases:
+  - name: meetify-db
+    databaseName: meetify
+    plan: free
